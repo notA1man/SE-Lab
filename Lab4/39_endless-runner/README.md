@@ -9,4 +9,10 @@ Implemented time-based movement, physics substeps, swept rectangle collision
 checks, and a maximum speed. Obstacles cannot skip across the player without
 registering a hit. Scoring occurs only after a safe clearance.
 
-Upcoming tasks: game-over screen, replay/difficulty selection, sound feedback.
+## Task 2: Game over
+
+Collision freezes the run and opens a final-score screen with graceful exit.
+Added a neon skyline, stable parallax scrolling, brief jump dust, score flash,
+and pause/resume with P or Esc.
+
+Upcoming tasks: replay/difficulty selection and sound feedback.

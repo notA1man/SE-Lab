@@ -37,7 +37,7 @@ class GameEngine:
         self.width, self.height = width, height
         self.ground_y = height - 100
         self.running = True
-        self.state = "playing"
+        self.state = "menu"
         self.difficulty = "Medium"
         self.best = {name: 0 for name in DIFFICULTIES}
         self.fonts = {size: pygame.font.SysFont("consolas", size, bold=size >= 28)
@@ -89,6 +89,11 @@ class GameEngine:
                 self.running = False
         elif key == pygame.K_p and self.state in ("playing", "paused"):
             self.state = "paused" if self.state == "playing" else "playing"
+        elif self.state in ("menu", "over"):
+            if key in (pygame.K_1, pygame.K_2, pygame.K_3):
+                self.start(list(DIFFICULTIES)[key - pygame.K_1])
+            elif key in (pygame.K_RETURN, pygame.K_SPACE):
+                self.start(self.difficulty)
         elif self.state == "playing" and key in (pygame.K_SPACE, pygame.K_UP, pygame.K_w):
             self.jump_buffer = 0.12
 
@@ -215,7 +220,16 @@ class GameEngine:
             subtitle = (f"{self.score} obstacles cleared / best {self.best[self.difficulty]} ({self.difficulty})"
                         if self.state == "over" else "Find your rhythm. Clear the skyline.")
             self.text(screen, subtitle, (cx, 221), 20, MUTED, True)
-            self.text(screen, "Press ESC or click Exit to close", (cx, 315), 20, MUTED, True)
+            self.text(screen, "CHOOSE YOUR NEXT RUN", (cx, 264), 16, MUTED, True)
+            mouse = pygame.mouse.get_pos()
+            for i, name in enumerate(DIFFICULTIES):
+                rect = pygame.Rect(cx - 270 + i * 185, 290, 170, 74)
+                hover = rect.collidepoint(mouse)
+                pygame.draw.rect(screen, (38, 68, 83) if hover else (31, 42, 65), rect, border_radius=10)
+                pygame.draw.rect(screen, CYAN if hover else (65, 86, 112), rect, 1, border_radius=10)
+                self.text(screen, f"{i + 1}  {name}", rect.center, 20, WHITE, True)
+                self.buttons.append((rect, name))
+            self.text(screen, "ENTER  replay current difficulty", (cx, 391), 16, MUTED, True)
             exit_rect = pygame.Rect(cx - 80, 414, 160, 30)
             self.text(screen, "ESC / Exit", exit_rect.center, 16, PINK, True)
             self.buttons.append((exit_rect, "quit"))

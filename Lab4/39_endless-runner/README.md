@@ -15,4 +15,11 @@ Collision freezes the run and opens a final-score screen with graceful exit.
 Added a neon skyline, stable parallax scrolling, brief jump dust, score flash,
 and pause/resume with P or Esc.
 
-Upcoming tasks: replay/difficulty selection and sound feedback.
+## Task 3: Replay and difficulty
+
+Choose Easy, Medium, or Hard with keys 1/2/3 or mouse buttons on the start
+and game-over screens. Enter replays the current difficulty. Each replay
+resets the player, obstacles, score, speed and particles. Session best scores
+are tracked separately for each difficulty. Esc exits from menus.
+
+Upcoming task: sound feedback.

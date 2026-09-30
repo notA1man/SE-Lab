@@ -1,25 +1,136 @@
-# Endless Runner - Lab 4
+# Project: Real-Time Endless Runner Game
 
-Requires Python 3.10+. Install with `pip install -r requirements.txt`, then
-run `python main.py`. Jump with Space, Up, or W; exit with Esc.
+This project is a terminal-based endless runner using **Pygame**. It introduces students to interactive game design using object-oriented principles and real-time graphical rendering.
 
-## Task 1: Collision detection
+---
 
-Implemented time-based movement, physics substeps, swept rectangle collision
-checks, and a maximum speed. Obstacles cannot skip across the player without
-registering a hit. Scoring occurs only after a safe clearance.
+## What’s Provided
 
-## Task 2: Game over
+A partially working version of an endless runner with:
 
-Collision freezes the run and opens a final-score screen with graceful exit.
-Added a neon skyline, stable parallax scrolling, brief jump dust, score flash,
-and pause/resume with P or Esc.
+- A player-controlled character that jumps over obstacles with gravity pulling it back down
+- Obstacles that spawn at a regular interval and scroll toward the player, gradually speeding up
+- Score display
 
-## Task 3: Replay and difficulty
+You are expected to **analyze**, **interact with an AI assistant**, and **complete/fix** the game to make it fully functional.
 
-Choose Easy, Medium, or Hard with keys 1/2/3 or mouse buttons on the start
-and game-over screens. Enter replays the current difficulty. Each replay
-resets the player, obstacles, score, speed and particles. Session best scores
-are tracked separately for each difficulty. Esc exits from menus.
+### **Use an LLM (e.g. ChatGPT or Claude) as your debugging and pair-programming partner for this lab.**
 
-Upcoming task: sound feedback.
+---
+
+## Getting Started
+
+### Setup
+
+1. Clone the repo or download the project folder.
+2. Make sure you have Python 3.10+ installed.
+3. Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+4. Run the game:
+
+```bash
+python main.py
+```
+
+
+
+
+## Tasks to Complete
+
+### Completed implementation: Neon Stride
+
+All four tasks below are implemented. Run `python main.py` to open the game.
+Choose Easy, Medium, or Hard using the mouse or keys `1`, `2`, `3`.
+Jump with `Space`, `Up`, or `W`; pause/resume with `P` or `Esc`; toggle
+sound with `M`. After a collision, the final score and session best appear.
+Choose another difficulty, press `Enter` to replay the current one, or click
+Exit / press `Esc` to quit. Best scores are tracked per difficulty for the
+current application session.
+
+Movement uses seconds rather than frames, with physics steps at most 1/120 s.
+Swept AABB collision checks the path between positions to prevent tunneling.
+Speed increases by 9 pixels/second each second and stops at a difficulty cap.
+Frame stalls are clamped to 0.1 seconds to avoid unfair catch-up jumps.
+
+| Difficulty | Starting speed (px/s) | Spawn interval (s) | Maximum speed (px/s) |
+| --- | ---: | ---: | ---: |
+| Easy | 300 | 1.65 | 540 |
+| Medium | 390 | 1.40 | 650 |
+| Hard | 480 | 1.20 | 760 |
+
+The presentation includes a layered scrolling skyline, neon track, robot
+runner, varied obstacles, particle feedback, and keyboard/mouse menus.
+Jump, score, and game-over effects are synthesized locally; no external
+assets are required. If no audio device is available, gameplay still works.
+
+Run the automated regression checks from this folder:
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+The submission videos and shared chat link in the original checklist below
+remain separate coursework deliverables.
+
+Each task must be completed using an iterative process involving LLM suggestions and your critical code review.
+
+### Task 1: Refine Collision Detection
+
+> The game speeds up forever with no limit, and once it's fast enough obstacles can zip past the player without the hit ever registering. Investigate and enhance collision accuracy (and/or the speed ramp) so it stays fair no matter how long a run lasts.
+
+
+### Task 2: Implement Game Over Condition
+
+> Add a screen that displays the final score once the player collides with an obstacle, then gracefully waits for input instead of just printing to the console.
+
+
+### Task 3: Add Replay Option
+
+> After Game Over, allow the user to play again by choosing a difficulty (Easy, Medium, or Hard starting speed/spawn rate), or exit.
+
+
+
+### Task 4: Add Sound Feedback
+
+> Add basic sound effects for jumping, passing an obstacle (scoring), and the game-over moment.
+
+
+
+---
+
+## Expected Behavior
+
+- Player jumps with `Space`, `Up`, or `W`, and gravity brings it back down to the ground
+- Obstacles spawn at a regular interval and scroll from right to left, gradually getting faster
+- Score increases by one each time the player clears an obstacle
+- Game ends when the player collides with an obstacle
+
+---
+
+## Folder Structure
+
+```
+endless-runner-main/
+├── main.py
+├── requirements.txt
+├── game/
+│   ├── game_engine.py
+│   ├── player.py
+│   └── obstacle.py
+└── README.md
+```
+
+---
+
+## Submission Checklist
+
+Submission is only the following three things:
+
+- [] A 10-second video of gameplay **before** your changes, showing the bug/broken behavior
+- [] A 10-second video of gameplay **after** your changes, showing the bug fixed and the new features working
+- [] The Chat/LLM used page link, with the complete chat history
+

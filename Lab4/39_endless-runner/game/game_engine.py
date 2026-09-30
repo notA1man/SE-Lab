@@ -3,6 +3,7 @@ import random
 import pygame
 from .player import Player
 from .obstacle import Obstacle
+from .sound import SoundBank
 
 INK = (12, 17, 35)
 WHITE = (234, 243, 255)
@@ -40,6 +41,7 @@ class GameEngine:
         self.state = "menu"
         self.difficulty = "Medium"
         self.best = {name: 0 for name in DIFFICULTIES}
+        self.sound = SoundBank()
         self.fonts = {size: pygame.font.SysFont("consolas", size, bold=size >= 28)
                       for size in (16, 20, 28, 40, 64)}
         self.time = 0
@@ -80,7 +82,9 @@ class GameEngine:
         if event.type != pygame.KEYDOWN:
             return
         key = event.key
-        if key == pygame.K_ESCAPE:
+        if key == pygame.K_m:
+            self.sound.muted = not self.sound.muted
+        elif key == pygame.K_ESCAPE:
             if self.state == "playing":
                 self.state = "paused"
             elif self.state == "paused":
@@ -122,6 +126,7 @@ class GameEngine:
         before = self.player.rect()
         if self.jump_buffer > 0 and self.player.jump():
             self.jump_buffer = 0
+            self.sound.play("jump")
             self.burst(self.player.x + 16, self.ground_y, CYAN, 7, dust=True)
         self.jump_buffer = max(0, self.jump_buffer - dt)
         self.player.update(dt)
@@ -137,12 +142,14 @@ class GameEngine:
             if swept_collision(before, self.player.rect(), old, obstacle.rect()):
                 self.state = "over"
                 self.best[self.difficulty] = max(self.best[self.difficulty], self.score)
+                self.sound.play("over")
                 self.burst(self.player.x + 16, self.player.y + 22, PINK, 26)
                 return
         for obstacle in self.obstacles:
             if not obstacle.scored and obstacle.x + obstacle.width < self.player.x:
                 obstacle.scored = True
                 self.score += 1
+                self.sound.play("score")
                 self.score_flash = 0.25
         self.obstacles = [o for o in self.obstacles if not o.off_screen()]
         self.distance += self.speed * dt
@@ -201,7 +208,8 @@ class GameEngine:
                   CYAN if self.score_flash > 0 else WHITE)
         self.text(screen, "CLEARED", (self.width - 132, 64), 16, MUTED)
         self.text(screen, f"{self.difficulty.upper()}  /  BEST {self.best[self.difficulty]}", (28, 62), 16, MUTED)
-        self.text(screen, "SPACE / UP / W  jump     P / ESC  pause", (28, self.height - 28), 16, MUTED)
+        self.text(screen, "SPACE / UP / W  jump     P / ESC  pause     M  sound " +
+                  ("OFF" if self.sound.muted else "ON"), (28, self.height - 28), 16, MUTED)
         self.buttons = []
         if self.state in ("menu", "over", "paused"):
             veil = pygame.Surface((self.width, self.height), pygame.SRCALPHA)

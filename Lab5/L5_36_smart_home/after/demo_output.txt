@@ -1,0 +1,7 @@
+Device not found: Garage Door
+Ceiling Light is not a thermostat
+Bedroom devices: ['Bedroom Fan', 'Thermostat']
+Current power use (W): 1510
+Hub address: 127.0.0.1:8080
+Light settings: {}
+Devices on: ['Ceiling Light', 'Thermostat']

@@ -4,7 +4,7 @@ import json
 
 HUB_HOST = "127.0.0.1"
 HUB_PORT = 8080
-POWER_USAGE = {"light" : 10, "fan": 60, "thermostat": 1500, "tv": 120}
+POWER_USAGE = {"light": 10, "fan": 60, "thermostat": 1500, "tv": 120}
 devices = {}
 
 
@@ -28,7 +28,7 @@ def toggle_device(device_name):
 
 
 def set_temperature(device_name, value):
-    """Clamp a thermostat to 16-30 degrees; return False for invalid devices."""
+    """Clamp a thermostat to 16-30 degrees; reject invalid devices."""
     device = devices.get(device_name)
     if device is None:
         print("Device not found:", device_name)
@@ -49,6 +49,7 @@ def power_usage():
     """Return the combined power consumption of active devices in watts."""
     active = [info for info in devices.values() if info["on"]]
     return sum(POWER_USAGE.get(info["kind"], 0) for info in active)
+
 
 def save_state(file_name="home_state.json"):
     """Save the current device state as UTF-8 JSON."""
@@ -74,9 +75,10 @@ def main():
     set_temperature("Ceiling Light", 20)
     print("Bedroom devices:", devices_in_room("Bedroom"))
     print("Current power use (W):", power_usage())
-    print("Hub address:", hub_address()) # for app setup
+    print("Hub address:", hub_address())  # for app setup
     print("Light settings:", devices["Ceiling Light"]["settings"])
-    print("Devices on:", [name for name, info in devices.items() if info["on"]])
+    active_names = [name for name, info in devices.items() if info["on"]]
+    print("Devices on:", active_names)
     save_state()
 
 

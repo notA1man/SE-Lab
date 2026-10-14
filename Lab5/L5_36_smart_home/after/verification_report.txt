@@ -1,0 +1,6 @@
+PASS: importing does not run the demo
+PASS: independent settings and both temperature limits
+PASS: caller-provided settings are copied
+PASS: toggling and invalid-device handling
+PASS: room filtering, power consumption and hub address
+PASS: UTF-8 JSON save and reload

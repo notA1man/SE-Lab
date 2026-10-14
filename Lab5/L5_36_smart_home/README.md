@@ -1,55 +1,34 @@
-# Lab 5: Static Code Analysis — Smart Home Device Controller
+# Lab 5: Static Code Analysis - Smart Home Device Controller
 
-**Your file:** `smart_home.py`
+The supplied **Lab 5 Static Code Analysis Student Handout PDF** defines this submission's requirements.
 
-Follow the lab handout for the full instructions.
+The controller adds devices to rooms, toggles them, sets thermostat temperatures within 16-30 degrees, lists devices by room, reports power consumption and saves `home_state.json`.
 
-## About the program
+## Run and analyse
 
-A controller for smart home devices. It adds devices to rooms, switches them on and off, sets the thermostat within a safe range, lists devices by room, reports power use and saves the home state to home_state.json.
+Run these commands inside `Lab5/L5_36_smart_home` using the Windows Python launcher:
 
-The code works, but only just. It has quality, style and security problems of the kind Pylint, Flake8 and Bandit are built to find.
-
-## What to do
-
-1. **Run it first** and read the output carefully:
-
-   ```
-   python smart_home.py
-   ```
-
-   It runs a short demonstration and needs no input. Not every problem in this file is something a tool will flag, so pay attention to output that looks wrong. Look closely at the settings it prints for each device, and ask whether every device should really have them.
-
-2. **Install the tools:**
-
-   ```
-   python -m pip install pylint bandit flake8
-   ```
-
-3. **Run the analysis and save the reports:**
-
-   ```
-   python -m pylint smart_home.py > pylint_report.txt
-   python -m bandit -r smart_home.py > bandit_report.txt
-   python -m flake8 smart_home.py > flake8_report.txt
-   ```
-
-4. **Document the issues** in `issues.md` using this table (at least 4 rows, high and medium severity first):
-
-   | Issue | Type | Line(s) | Description | Fix Approach |
-   |-------|------|---------|-------------|--------------|
-   | ...   | ...  | ...     | ...         | ...          |
-
-5. **Fix the code.** Fix at least 4 of the issues you documented, then rerun all three tools to confirm they are gone. Repeat until you are satisfied. The program should still do its job when you are done.
-
-6. **Reflect.** Answer the four reflection questions from the handout in `reflection.md`.
+```powershell
+py -m pip install pylint bandit flake8
+py smart_home.py
+py -m pylint smart_home.py > after/pylint_report.txt
+py -m bandit -r smart_home.py > after/bandit_report.txt
+py -m flake8 smart_home.py > after/flake8_report.txt
+```
 
 ## Deliverables
 
-- `smart_home.py`: your cleaned version, with at least 4 issues fixed.
-- `issues.md`: the completed issue table.
-- `reflection.md`: your answers to the reflection questions.
+- `smart_home.py`: cleaned controller with more than four documented issues addressed.
+- `issues.md`: original issue locations, descriptions, fix approaches and verification results.
+- `before/`: original reports from all three tools.
+- `after/`: final reports, demo output and behavioural verification results.
 
-**Target:** aim for a Pylint score above 9.5 on your final file. A perfect 10.00/10 is very good.
+The final Pylint score is **10.00/10**. Bandit reports no findings, and Flake8 reports no violations. An empty Flake8 report indicates success.
 
-Be ready to explain the bugs you found and how you fixed them. You may be called on to present.
+## Three phases
+
+1. Bandit: remove the unused unsafe scene-execution helper and embedded password, use a localhost hub address, and preserve baseline reports and the issue table.
+2. Pylint: fix naming, documentation, mutable defaults, return paths and file encoding; handle missing devices and guard the demo during import.
+3. Flake8: finish formatting, regenerate all final reports, and record working demo and behavioural checks.
+
+The PDF requests reflection generally but supplies no reflection questions. The four-question requirement appeared only in the starter README and is not treated as a PDF requirement.

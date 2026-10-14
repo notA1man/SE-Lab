@@ -1,0 +1,6 @@
+************* Module smart_home
+smart_home.py:84:0: C0327: Mixed line endings LF and CRLF (mixed-line-endings)
+
+------------------------------------------------------------------
+Your code has been rated at 9.80/10 (previous run: 4.80/10, +5.00)
+
